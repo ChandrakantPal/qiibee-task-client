@@ -1,5 +1,16 @@
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Signup from './pages/Signup'
+
 const App = () => {
-  return <div>hello world</div>
+  return (
+    <div>
+      <Router>
+        <Switch>
+          <Route path="/" component={Signup} />
+        </Switch>
+      </Router>
+    </div>
+  )
 }
 
 export default App
