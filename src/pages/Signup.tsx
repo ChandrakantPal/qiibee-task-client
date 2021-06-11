@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Divider from '../components/Divider'
 import InputGroup from '../components/InputGroup'
 
 const Signup = () => {
@@ -18,7 +19,7 @@ const Signup = () => {
           />
           <p className="px-2 text-sm">Welcome to the qiibee Dashboard</p>
         </div>
-        <div className="h-0.5 bg-gradient-to-r from-blue-500 to-pink-500" />
+        <Divider />
         <div className="p-5 md:p-10">
           <h4 className="mb-4 text-lg font-bold md:mb-10 md:text-xl">
             Create your account
