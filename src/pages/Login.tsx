@@ -1,10 +1,19 @@
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import Divider from '../components/Divider'
 import InputGroup from '../components/InputGroup'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState('')
+
+  const submitHandler = (event: FormEvent) => {
+    event.preventDefault()
+    if (email.trim() === '' || password.trim() === '') {
+      setErrors('email and password cannot be empty')
+      return
+    }
+  }
 
   return (
     <div className="flex items-center justify-center w-screen h-screen">
@@ -23,23 +32,30 @@ const Login = () => {
             Log in to your account
           </h4>
           <div className="flex flex-wrap">
-            <InputGroup
-              placeholder="Email"
-              type="email"
-              className="w-full px-5 pb-2 md:px-2 md:pb-8"
-              value={email}
-              setValue={setEmail}
-            />
-            <InputGroup
-              placeholder="Password"
-              type="password"
-              className="w-full px-5 pb-2 md:px-2 md:pb-8 "
-              value={password}
-              setValue={setPassword}
-            />
+            <form onSubmit={submitHandler}>
+              <InputGroup
+                placeholder="Email"
+                type="email"
+                className="w-full px-5 pb-2 md:px-2 md:pb-8"
+                value={email}
+                setValue={setEmail}
+                error={errors}
+              />
+              <InputGroup
+                placeholder="Password"
+                type="password"
+                className="w-full px-5 pb-2 md:px-2 md:pb-8 "
+                value={password}
+                setValue={setPassword}
+                error={errors}
+              />
+            </form>
             <div className="flex items-center justify-between w-full mt-10">
               <p className="text-blue-500">Signup</p>
-              <button className="px-3 py-2 text-center text-white rounded-lg outline-none bg-cerulean hover:bg-cerulean-700">
+              <button
+                type="submit"
+                className="px-3 py-2 text-center text-white rounded-lg outline-none bg-cerulean hover:bg-cerulean-700"
+              >
                 login
               </button>
             </div>
