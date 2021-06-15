@@ -1,4 +1,7 @@
+import { gql, useLazyQuery } from '@apollo/client'
 import { FormEvent, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import Divider from '../components/Divider'
 import InputGroup from '../components/InputGroup'
 
@@ -7,12 +10,23 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState('')
 
+  const history = useHistory()
+
+  const [loginUser] = useLazyQuery(LOGIN_USER, {
+    onError: (err) => {
+      setErrors(err.graphQLErrors[0].extensions.errors)
+    },
+    onCompleted: (data) => {
+      console.log({ data })
+
+      // localStorage.setItem('token', data.login.token)
+      // history.push('/')
+    },
+  })
+
   const submitHandler = (event: FormEvent) => {
     event.preventDefault()
-    if (email.trim() === '' || password.trim() === '') {
-      setErrors('email and password cannot be empty')
-      return
-    }
+    loginUser({ variables: { email, password } })
   }
 
   return (
@@ -49,16 +63,22 @@ const Login = () => {
                 setValue={setPassword}
                 error={errors}
               />
+
+              <div className="flex items-center justify-between w-full mt-10">
+                <Link
+                  to="/signup"
+                  className="text-cerulean hover:text-cerulean-400"
+                >
+                  Signup
+                </Link>
+                <button
+                  type="submit"
+                  className="px-3 py-2 text-center text-white rounded-lg outline-none bg-cerulean hover:bg-cerulean-700"
+                >
+                  login
+                </button>
+              </div>
             </form>
-            <div className="flex items-center justify-between w-full mt-10">
-              <p className="text-blue-500">Signup</p>
-              <button
-                type="submit"
-                className="px-3 py-2 text-center text-white rounded-lg outline-none bg-cerulean hover:bg-cerulean-700"
-              >
-                login
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -67,3 +87,37 @@ const Login = () => {
 }
 
 export default Login
+
+const LOGIN_USER = gql`
+  query login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      userType
+      customer {
+        id
+        email
+        firstname
+        lastname
+        createdAt
+        following {
+          brandId
+          loyaltyPoint
+        }
+        totalloyaltyPoint
+        token
+      }
+      brand {
+        id
+        email
+        brandname
+        brandsymbol
+        createdAt
+        followers {
+          customerId
+          loyaltyPoint
+        }
+        loyaltyPoint
+        token
+      }
+    }
+  }
+`
