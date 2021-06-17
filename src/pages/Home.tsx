@@ -9,16 +9,18 @@ const Home = () => {
         <Sidebar />
       </div>
       {/* content */}
-      <div className="w-full h-full text-2xl font-bold">
+      <div className="w-full h-full font-semibold md:ml-64">
         <div className="h-8 bg-gradient-to-r from-cerulean to-pink-500"></div>
         <div className="container p-10 mx-auto text-center">
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
-          <BrandCard />
+          <div className="w-full md:mx-auto md:space-y-2 lg:w-1/3">
+            <BrandCard />
+            <BrandCard />
+            <BrandCard />
+            <BrandCard />
+            <BrandCard />
+            <BrandCard />
+            <BrandCard />
+          </div>
         </div>
       </div>
     </div>
