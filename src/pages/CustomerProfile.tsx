@@ -1,8 +1,15 @@
+import { Redirect } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import BrandCard from '../components/BrandCard'
 import { UserCircleIcon } from '@heroicons/react/outline'
+import { useAppSelector } from '../store/hooks'
 
 const CustomerProfile = () => {
+  const { userType, customer } = useAppSelector((state) => state.user)
+
+  if (userType !== 'customer' || customer === null) {
+    return <Redirect to="/login" />
+  }
   return (
     <div className="relative w-full h-full md:flex">
       {/* Sidebar */}
@@ -16,11 +23,13 @@ const CustomerProfile = () => {
           <div className="flex flex-wrap justify-center p-5 mx-auto mb-2 md:justify-evenly lg:w-108">
             <UserCircleIcon className="object-contain w-24 text-gray-700" />
             <div className="flex-1 ml-2 space-y-2 text-left">
-              <p className="text-xl">Chandrakant pal</p>
-              <p>chandrakant@email.com</p>
+              <p className="text-xl capitalize">
+                {customer.firstname} {customer.lastname}
+              </p>
+              <p>{customer.email}</p>
               <div className="flex justify-between w-full">
-                <p>10 following</p>
-                <p>100 Points</p>
+                <p>{customer.following.length} following</p>
+                <p>{customer.totalloyaltyPoint} Points</p>
               </div>
             </div>
           </div>
