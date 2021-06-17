@@ -1,7 +1,14 @@
+import { Redirect } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import BrandCard from '../components/BrandCard'
+import { useAppSelector } from '../store/hooks'
 
 const Home = () => {
+  const { userType, customer } = useAppSelector((state) => state.user)
+
+  if (userType !== 'customer' || customer === null) {
+    return <Redirect to="/login" />
+  }
   return (
     <div className="relative w-full h-full md:flex">
       {/* Sidebar */}
