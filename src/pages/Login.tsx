@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import Divider from '../components/Divider'
 import InputGroup from '../components/InputGroup'
+import { useAppDispatch } from '../store/hooks'
+import { setUserBrand, setUserCustomer, setUserType } from '../store/userSlice'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState('')
+  const dispatch = useAppDispatch()
 
   const history = useHistory()
 
@@ -18,7 +21,17 @@ const Login = () => {
     },
     onCompleted: (data) => {
       console.log({ data })
-
+      localStorage.setItem('user', JSON.stringify(data.login))
+      dispatch(setUserType(data.login.userType))
+      if (data.login.userType === 'brand') {
+        localStorage.setItem('token', data.login.brand.token)
+        dispatch(setUserBrand(data.login.brand))
+      }
+      if (data.login.userType === 'customer') {
+        localStorage.setItem('token', data.login.customer.token)
+        dispatch(setUserCustomer(data.login.customer))
+        history.push('/')
+      }
       // localStorage.setItem('token', data.login.token)
       // history.push('/')
     },
