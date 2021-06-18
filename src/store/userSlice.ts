@@ -32,7 +32,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
   reducers: {
-    setUserType: (state, { payload }: PayloadAction<UserType>) => {
+    setUserType: (state, { payload }: PayloadAction<UserType | string>) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
@@ -45,10 +45,30 @@ export const userSlice = createSlice({
     setUserCustomer: (state, { payload }: PayloadAction<Customer>) => {
       state.customer = payload
     },
+    setTotalLoyaltyPoint: (state, { payload }: PayloadAction<number>) => {
+      state.customer.totalloyaltyPoint = payload
+    },
+    setBrandLoyaltyPoint: (state, { payload }: PayloadAction<number>) => {
+      state.brand.loyaltyPoint = payload
+    },
+    setLogout: (state) => {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      state.userType = ''
+      state.customer = null
+      state.brand = null
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUserType, setUserBrand, setUserCustomer } = userSlice.actions
+export const {
+  setUserType,
+  setUserBrand,
+  setUserCustomer,
+  setLogout,
+  setTotalLoyaltyPoint,
+  setBrandLoyaltyPoint,
+} = userSlice.actions
 
 export default userSlice.reducer
