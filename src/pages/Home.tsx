@@ -39,9 +39,11 @@ const Home = () => {
       </div>
       {/* content */}
       <div className="w-full h-full font-semibold md:ml-64">
-        <div className="h-8 bg-gradient-to-r from-cerulean to-pink-500"></div>
+        <div className="h-8 text-center text-white bg-gradient-to-r from-cerulean to-pink-500">
+          Explore
+        </div>
         <div className="container p-10 mx-auto text-center">
-          <div className="w-full md:mx-auto md:space-y-2 lg:w-1/3">
+          <div className="w-full md:mx-auto md:space-y-2 lg:w-120">
             {data?.getBrands?.map((brand: Brand) => (
               <BrandCard
                 key={brand.id}
