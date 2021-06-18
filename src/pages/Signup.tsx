@@ -244,7 +244,7 @@ const Signup = () => {
                 </Link>
                 <button
                   type="submit"
-                  className="px-3 py-2 text-center text-white rounded-lg outline-none bg-cerulean hover:bg-cerulean-700"
+                  className="px-3 py-2 text-center text-white rounded-lg outline-none bg-cerulean hover:bg-cerulean-700 focus:outline-none"
                 >
                   Sign up
                 </button>
