@@ -37,7 +37,7 @@ const CustomerCard: FC<CustomerCardProp> = ({
 
   const [allocatePoints] = useMutation(ALOCATE_POINTS, {
     update: (_, { data }) => {
-      console.log(data)
+      console.log({ data })
       dispatch(setBrandLoyaltyPoint(data.allocateLoyaltyPoint.loyaltyPoint))
       setPoints(0)
       setOpen(false)
@@ -197,13 +197,16 @@ const ALOCATE_POINTS = gql`
       customerId: $customerId
     ) {
       id
+      email
       brandname
-      loyaltyPoint
+      brandsymbol
+      createdAt
       followers {
         customerId
         loyaltyPoint
         redeemed
       }
+      loyaltyPoint
     }
   }
 `
