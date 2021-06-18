@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client'
 import classNames from 'classnames'
 import { FormEvent, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Divider from '../components/Divider'
 import InputGroup from '../components/InputGroup'
 
@@ -16,11 +16,13 @@ const Signup = () => {
   const [loyaltyPoint, setLoyaltyPoint] = useState(10)
   const [errors, setErrors] = useState<any>({})
 
+  const history = useHistory()
+
   const [createCustomer] = useMutation(CREATE_NEW_CUSTOMER, {
     update: (_, { data: { registerCustomer: userData } }) => {
       // localStorage.setItem('token', userData.token)
       // dispatch('LOGIN', userData)
-      // history.push('/')
+      history.push('/login')
       setEmail('')
       setPassword('')
       setFirstname('')
@@ -34,9 +36,15 @@ const Signup = () => {
   })
   const [createBrand] = useMutation(CREATE_NEW_BRAND, {
     update: (_, { data: { registerBrand: userData } }) => {
+      // const dataToStore = {
+      //   userType,
+      //   brand: userData,
+      // }
+      // localStorage.setItem('user', JSON.stringify(dataToStore))
+      // dispatch(setUserType(userType))
       // localStorage.setItem('token', userData.token)
       // dispatch('LOGIN', userData)
-      // history.push('/')
+      history.push('/login')
       setEmail('')
       setPassword('')
       setBrandname('')
