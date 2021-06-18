@@ -3,7 +3,7 @@ import { BriefcaseIcon, BadgeCheckIcon } from '@heroicons/react/outline'
 import dayjs from 'dayjs'
 import { FC } from 'react'
 import { useAppDispatch } from '../store/hooks'
-import { setTotalLoyaltyPoint } from '../store/userSlice'
+import { setTotalLoyaltyPoint, setUserCustomer } from '../store/userSlice'
 import { Follower } from '../type'
 
 interface BrandCardProp {
@@ -31,7 +31,11 @@ const BrandCard: FC<BrandCardProp> = ({
 
   const [followBrand] = useMutation(FOLLOW_BRAND, {
     update: (_, { data }) => {
-      console.log(data)
+      console.log({ data })
+      const userData = JSON.parse(localStorage.getItem('user'))
+      userData.customer = data.followBrand
+      localStorage.setItem('user', JSON.stringify(userData))
+      dispatch(setUserCustomer(data.followBrand))
       refetch()
     },
     onError: (err) => {
@@ -41,7 +45,11 @@ const BrandCard: FC<BrandCardProp> = ({
 
   const [redeemPoints] = useMutation(REDEEM_POINT, {
     update: (_, { data }) => {
-      console.log(data)
+      console.log({ data })
+      const userData = JSON.parse(localStorage.getItem('user'))
+      userData.customer = data.redeemPoint
+      localStorage.setItem('user', JSON.stringify(userData))
+      dispatch(setUserCustomer(data.redeemPoint))
       dispatch(setTotalLoyaltyPoint(data.redeemPoint.totalloyaltyPoint))
       refetch()
     },
@@ -170,11 +178,16 @@ const FOLLOW_BRAND = gql`
   mutation followBrand($brandId: ID!, $customerId: ID!) {
     followBrand(brandId: $brandId, customerId: $customerId) {
       id
+      email
+      firstname
+      lastname
+      createdAt
       following {
         brandId
         loyaltyPoint
         redeemed
       }
+      totalloyaltyPoint
     }
   }
 `
