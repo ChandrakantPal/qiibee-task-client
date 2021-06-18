@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Divider from './Divider'
 import {
   AdjustmentsIcon,
@@ -12,9 +12,23 @@ import {
   XIcon,
 } from '@heroicons/react/outline'
 import { useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { setLogout } from '../store/userSlice'
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false)
+
+  const dispatch = useAppDispatch()
+
+  const history = useHistory()
+
+  const { userType } = useAppSelector((state) => state.user)
+
+  const logoutHanlder = () => {
+    dispatch(setLogout())
+    history.push('/login')
+  }
+
   return (
     <>
       <aside className="absolute inset-y-0 left-0 w-64 h-full py-5 space-y-6 transition duration-200 ease-in-out transform -translate-x-full bg-white md:relative md:translate-x-0">
@@ -74,6 +88,19 @@ const Sidebar = () => {
             Center
           </Link>
         </nav>
+        <div className="flex items-center justify-around w-full">
+          <button
+            className="outline-none text-cerulean focus:outline-none"
+            onClick={logoutHanlder}
+          >
+            Logout
+          </button>
+          {userType === 'customer' && (
+            <Link to="/customer" className="text-cerulean">
+              My Account
+            </Link>
+          )}
+        </div>
       </aside>
       {open && (
         <>
@@ -135,6 +162,19 @@ const Sidebar = () => {
                 Help Center
               </Link>
             </nav>
+            <div className="flex items-center justify-around w-full mt-auto">
+              <button
+                className="outline-none text-cerulean focus:outline-none"
+                onClick={logoutHanlder}
+              >
+                Logout
+              </button>
+              {userType === 'customer' && (
+                <Link to="/customer" className="text-cerulean">
+                  My Account
+                </Link>
+              )}
+            </div>
           </aside>
         </>
       )}
