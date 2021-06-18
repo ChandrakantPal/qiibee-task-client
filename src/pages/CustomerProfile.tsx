@@ -3,12 +3,37 @@ import Sidebar from '../components/Sidebar'
 import BrandCard from '../components/BrandCard'
 import { UserCircleIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '../store/hooks'
+import { gql, useQuery } from '@apollo/client'
+import { Brand } from '../type'
 
 const CustomerProfile = () => {
   const { userType, customer } = useAppSelector((state) => state.user)
 
+  const { data, loading, error, refetch } = useQuery(GET_FOLLOWING, {
+    variables: {
+      customerId: customer.id,
+    },
+    fetchPolicy: 'cache-and-network',
+  })
+
   if (userType !== 'customer' || customer === null) {
     return <Redirect to="/login" />
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen">
+        Loading...
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen">
+        `Error ${error}`
+      </div>
+    )
   }
   return (
     <div className="relative w-full h-full md:flex">
@@ -35,10 +60,18 @@ const CustomerProfile = () => {
           </div>
           <div className="w-full md:mx-auto md:space-y-2 lg:w-108">
             <hr className="mb-4 border-gray-700" />
-            <BrandCard />
-            <BrandCard />
-            <BrandCard />
-            <BrandCard />
+            {data?.getFollowing?.map((brand: Brand) => (
+              <BrandCard
+                key={brand.id}
+                brandId={brand.id}
+                brandName={brand.brandname}
+                brandSymbol={brand.brandsymbol}
+                customerId={customer.id}
+                followers={brand.followers}
+                loyaltyPoints={brand.loyaltyPoint}
+                refetch={refetch}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -47,3 +80,21 @@ const CustomerProfile = () => {
 }
 
 export default CustomerProfile
+
+const GET_FOLLOWING = gql`
+  query getFollowing($customerId: ID!) {
+    getFollowing(customerId: $customerId) {
+      id
+      brandname
+      brandsymbol
+      email
+      followers {
+        customerId
+        loyaltyPoint
+        redeemed
+      }
+      loyaltyPoint
+      createdAt
+    }
+  }
+`
