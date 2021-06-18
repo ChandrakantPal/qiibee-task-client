@@ -26,7 +26,7 @@ export interface Customer {
   following: Following[]
   id: string
   lastname: string
-  token: string
+  token?: string
   totalloyaltyPoint: number
 }
 
