@@ -43,7 +43,9 @@ const CustomerProfile = () => {
       </div>
       {/* content */}
       <div className="w-full h-full font-semibold md:ml-64">
-        <div className="h-8 bg-gradient-to-r from-cerulean to-pink-500"></div>
+        <div className="h-8 text-center text-white bg-gradient-to-r from-cerulean to-pink-500">
+          My Profile
+        </div>
         <div className="container p-10 mx-auto text-center">
           <div className="flex flex-wrap justify-center p-5 mx-auto mb-2 md:justify-evenly lg:w-108">
             <UserCircleIcon className="object-contain w-24 text-gray-700" />
@@ -52,13 +54,13 @@ const CustomerProfile = () => {
                 {customer.firstname} {customer.lastname}
               </p>
               <p>{customer.email}</p>
-              <div className="flex justify-between w-full">
+              <div className="flex flex-wrap justify-between w-full">
                 <p>{customer.following.length} following</p>
                 <p>{customer.totalloyaltyPoint} Points</p>
               </div>
             </div>
           </div>
-          <div className="w-full md:mx-auto md:space-y-2 lg:w-108">
+          <div className="w-full md:mx-auto md:space-y-2 lg:w-120">
             <hr className="mb-4 border-gray-700" />
             {data?.getFollowing?.map((brand: Brand) => (
               <BrandCard
