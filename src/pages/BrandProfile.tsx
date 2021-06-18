@@ -1,15 +1,43 @@
 import { Redirect } from 'react-router-dom'
-import Sidebar from '../components/Sidebar'
-import BrandCard from '../components/BrandCard'
 import { UserCircleIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '../store/hooks'
+import { gql, useQuery } from '@apollo/client'
+import { Customer } from '../type'
+import Sidebar from '../components/Sidebar'
+import CustomerCard from '../components/CustomerCard'
 
 const BrandProfile = () => {
   const { userType, brand } = useAppSelector((state) => state.user)
 
+  const { data, loading, error, refetch } = useQuery(GET_FOLLOWERS, {
+    variables: {
+      brandId: brand.id,
+    },
+    fetchPolicy: 'cache-and-network',
+  })
+
+  console.log({ data, error, loading })
+
   if (userType !== 'brand' || brand === null) {
     return <Redirect to="/login" />
   }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen">
+        Loading...
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen">
+        `Error ${error}`
+      </div>
+    )
+  }
+
   return (
     <div className="relative w-full h-full md:flex">
       {/* Sidebar */}
@@ -34,10 +62,18 @@ const BrandProfile = () => {
           </div>
           <div className="w-full md:mx-auto md:space-y-2 lg:w-108">
             <hr className="mb-4 border-gray-700" />
-            <BrandCard />
-            <BrandCard />
-            <BrandCard />
-            <BrandCard />
+            {data?.getFollowers?.map((customer: Customer) => (
+              <CustomerCard
+                key={customer.id}
+                firstName={customer.firstname}
+                lastName={customer.lastname}
+                joinDate={customer.createdAt}
+                following={customer.following}
+                customerId={customer.id}
+                brandId={brand.id}
+                refetch={refetch}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -46,3 +82,21 @@ const BrandProfile = () => {
 }
 
 export default BrandProfile
+
+const GET_FOLLOWERS = gql`
+  query getFollowers($brandId: ID!) {
+    getFollowers(brandId: $brandId) {
+      id
+      email
+      firstname
+      lastname
+      createdAt
+      following {
+        brandId
+        loyaltyPoint
+        redeemed
+      }
+      totalloyaltyPoint
+    }
+  }
+`
