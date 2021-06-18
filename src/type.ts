@@ -12,6 +12,7 @@ export interface Brand {
 export interface Follower {
   customerId: string
   loyaltyPoint: number
+  redeemed?: boolean
 }
 
 export interface UserType {
@@ -26,10 +27,11 @@ export interface Customer {
   id: string
   lastname: string
   token: string
-  totalloyaltyPoint: string
+  totalloyaltyPoint: number
 }
 
 export interface Following {
   brandId: string
   loyaltyPoint: number
+  redeemed?: boolean
 }
