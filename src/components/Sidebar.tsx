@@ -33,7 +33,7 @@ const Sidebar = () => {
     <>
       <aside className="absolute inset-y-0 left-0 w-64 h-full py-5 space-y-6 transition duration-200 ease-in-out transform -translate-x-full bg-white md:relative md:translate-x-0">
         <div className="flex flex-col justify-around h-18">
-          <Link to="/" className="p-5">
+          <Link to="/" className="p-5 cursor-pointer">
             <span className="object-contain w-12 p-3 mr-2 text-center text-white capitalize rounded-full bg-gradient-to-b from-blue-500 to-pink-500">
               {userType === 'brand'
                 ? `${brand.brandname.charAt(0)} ${brand.brandsymbol.charAt(0)}`
@@ -91,7 +91,7 @@ const Sidebar = () => {
         <>
           <aside className="fixed z-20 w-2/3 h-full py-5 space-y-6 text-sm transition duration-200 ease-in-out bg-white md:hidden">
             <div className="flex flex-col justify-around h-18">
-              <Link to="/" className="p-5">
+              <Link to="/" className="p-5 cursor-pointer">
                 <span className="object-contain w-12 p-3 mr-2 text-center text-white rounded-full bg-gradient-to-b from-blue-500 to-pink-500">
                   {userType === 'brand'
                     ? `${brand.brandname.charAt(0)} ${brand.brandsymbol.charAt(
