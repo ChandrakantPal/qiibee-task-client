@@ -1,16 +1,19 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import Divider from '../components/Divider'
 import InputGroup from '../components/InputGroup'
-import { useAppDispatch } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { setUserBrand, setUserCustomer, setUserType } from '../store/userSlice'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState('')
+
+  const { userType } = useAppSelector((state) => state.user)
+
   const dispatch = useAppDispatch()
 
   const history = useHistory()
@@ -36,11 +39,20 @@ const Login = () => {
       // localStorage.setItem('token', data.login.token)
       // history.push('/')
     },
+    fetchPolicy: 'cache-and-network',
   })
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault()
     loginUser({ variables: { email, password } })
+  }
+
+  if (userType === 'brand') {
+    return <Redirect to="/brand" />
+  }
+
+  if (userType === 'customer') {
+    return <Redirect to="/customer" />
   }
 
   return (
@@ -87,7 +99,7 @@ const Login = () => {
                 </Link>
                 <button
                   type="submit"
-                  className="px-3 py-2 text-center text-white rounded-lg outline-none bg-cerulean hover:bg-cerulean-700"
+                  className="px-3 py-2 text-center text-white rounded-lg outline-none bg-cerulean hover:bg-cerulean-700 focus:outline-none"
                 >
                   login
                 </button>
@@ -115,6 +127,7 @@ const LOGIN_USER = gql`
         following {
           brandId
           loyaltyPoint
+          redeemed
         }
         totalloyaltyPoint
         token
@@ -128,6 +141,7 @@ const LOGIN_USER = gql`
         followers {
           customerId
           loyaltyPoint
+          redeemed
         }
         loyaltyPoint
         token
