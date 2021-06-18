@@ -22,7 +22,7 @@ const Sidebar = () => {
 
   const history = useHistory()
 
-  const { userType } = useAppSelector((state) => state.user)
+  const { userType, brand, customer } = useAppSelector((state) => state.user)
 
   const logoutHanlder = () => {
     dispatch(setLogout())
@@ -34,61 +34,46 @@ const Sidebar = () => {
       <aside className="absolute inset-y-0 left-0 w-64 h-full py-5 space-y-6 transition duration-200 ease-in-out transform -translate-x-full bg-white md:relative md:translate-x-0">
         <div className="flex flex-col justify-around h-18">
           <Link to="/" className="p-5">
-            <span className="object-contain w-12 p-3 mr-2 text-center text-white rounded-full bg-gradient-to-b from-blue-500 to-pink-500">
-              CP
+            <span className="object-contain w-12 p-3 mr-2 text-center text-white capitalize rounded-full bg-gradient-to-b from-blue-500 to-pink-500">
+              {userType === 'brand'
+                ? `${brand.brandname.charAt(0)} ${brand.brandsymbol.charAt(0)}`
+                : `${customer.firstname.charAt(0)} ${customer.lastname.charAt(
+                    0
+                  )}`}
             </span>
-            Chandrakant Pal
+            {userType === 'brand'
+              ? brand.brandname
+              : `${customer.firstname} ${customer.lastname}`}
           </Link>
           <Divider />
         </div>
         <nav>
-          <Link
-            to="/"
-            className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-          >
+          <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
             <AdjustmentsIcon className="object-contain w-5 mr-2" /> Set up
             Dashboard
-          </Link>
-          <Link
-            to="/"
-            className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-          >
+          </div>
+          <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
             <ChipIcon className="object-contain w-5 mr-2" /> Overview
-          </Link>
-          <Link
-            to="/"
-            className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-          >
+          </div>
+          <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
             <DatabaseIcon className="object-contain w-5 mr-2" />
             Loyalty Token
-          </Link>
-          <Link
-            to="/"
-            className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-          >
+          </div>
+          <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
             <CodeIcon className="object-contain w-5 mr-2" /> Developers
-          </Link>
-          <Link
-            to="/"
-            className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-          >
+          </div>
+          <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
             <TerminalIcon className="object-contain w-5 mr-2" /> Go to Sandbox
-          </Link>
-          <Link
-            to="/"
-            className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-          >
+          </div>
+          <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
             <CogIcon className="object-contain w-5 mr-2" /> Admin
-          </Link>
-          <Link
-            to="/"
-            className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-          >
+          </div>
+          <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
             <QuestionMarkCircleIcon className="object-contain w-5 mr-2" /> Help
             Center
-          </Link>
+          </div>
         </nav>
-        <div className="flex items-center justify-around w-full">
+        <div className="flex items-center justify-between w-full p-5">
           <button
             className="outline-none text-cerulean focus:outline-none"
             onClick={logoutHanlder}
@@ -108,61 +93,48 @@ const Sidebar = () => {
             <div className="flex flex-col justify-around h-18">
               <Link to="/" className="p-5">
                 <span className="object-contain w-12 p-3 mr-2 text-center text-white rounded-full bg-gradient-to-b from-blue-500 to-pink-500">
-                  CP
+                  {userType === 'brand'
+                    ? `${brand.brandname.charAt(0)} ${brand.brandsymbol.charAt(
+                        0
+                      )}`
+                    : `${customer.firstname.charAt(
+                        0
+                      )} ${customer.lastname.charAt(0)}`}
                 </span>
-                Chandrakant Pal
+                {userType === 'brand'
+                  ? brand.brandname
+                  : `${customer.firstname} ${customer.lastname}`}
               </Link>
               <Divider />
             </div>
             <nav>
-              <Link
-                to="/"
-                className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-              >
+              <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
                 <AdjustmentsIcon className="object-contain w-5 mr-2" /> Set up
                 Dashboard
-              </Link>
-              <Link
-                to="/"
-                className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-              >
+              </div>
+              <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
                 <ChipIcon className="object-contain w-5 mr-2" /> Overview
-              </Link>
-              <Link
-                to="/"
-                className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-              >
+              </div>
+              <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
                 <DatabaseIcon className="object-contain w-5 mr-2" />
                 Loyalty Token
-              </Link>
-              <Link
-                to="/"
-                className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-              >
+              </div>
+              <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
                 <CodeIcon className="object-contain w-5 mr-2" /> Developers
-              </Link>
-              <Link
-                to="/"
-                className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-              >
+              </div>
+              <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
                 <TerminalIcon className="object-contain w-5 mr-2" /> Go to
                 Sandbox
-              </Link>
-              <Link
-                to="/"
-                className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-              >
+              </div>
+              <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
                 <CogIcon className="object-contain w-5 mr-2" /> Admin
-              </Link>
-              <Link
-                to="/"
-                className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean"
-              >
+              </div>
+              <div className="flex items-center px-4 py-2.5 transition duration-200 hover:text-cerulean">
                 <QuestionMarkCircleIcon className="object-contain w-5 mr-2" />{' '}
                 Help Center
-              </Link>
+              </div>
             </nav>
-            <div className="flex items-center justify-around w-full mt-auto">
+            <div className="flex items-center justify-between w-full p-5 mt-auto">
               <button
                 className="outline-none text-cerulean focus:outline-none"
                 onClick={logoutHanlder}
