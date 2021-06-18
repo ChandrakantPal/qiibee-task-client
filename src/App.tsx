@@ -11,8 +11,8 @@ const App = () => {
     <ApolloProvider>
       <BrowserRouter>
         <Switch>
-          <Route path="brand" component={BrandProfile} />
-          <Route path="/customer" component={CustomerProfile} />
+          <Route exact path="/brand" component={BrandProfile} />
+          <Route exact path="/customer" component={CustomerProfile} />
           <Route exact path="/" component={Home} />
           <Route exact path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
