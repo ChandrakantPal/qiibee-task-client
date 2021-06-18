@@ -26,6 +26,7 @@ const Login = () => {
       if (data.login.userType === 'brand') {
         localStorage.setItem('token', data.login.brand.token)
         dispatch(setUserBrand(data.login.brand))
+        history.push('/brand')
       }
       if (data.login.userType === 'customer') {
         localStorage.setItem('token', data.login.customer.token)
